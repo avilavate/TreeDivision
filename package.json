@@ -1,0 +1,22 @@
+{
+  "name": "rayt",
+  "version": "1.0.0",
+  "description": "POC to show zoom in zoom out ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avilavate/TreeDivision.git"
+  },
+  "author": "Avil",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/avilavate/TreeDivision/issues"
+  },
+  "homepage": "https://github.com/avilavate/TreeDivision#readme",
+  "devDependencies": {
+    "d3": "^4.10.2"
+  }
+}
