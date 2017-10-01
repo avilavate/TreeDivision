@@ -9,3 +9,6 @@ export interface IPosition {
 };
 
 export interface IZoomView { partition: number, zoomLevel: number }
+
+export interface IZoomViewPartitions {partitions:Array<number>};
+

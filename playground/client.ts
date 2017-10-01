@@ -1,6 +1,8 @@
 import {PlayGround} from './play'
 
-export function DrawProfile(noOfProfiles:number=10){
-    let obhPlayGround=new PlayGround(noOfProfiles);
-    obhPlayGround.render();
+export function DrawProfile(){
+    let parseElement=<HTMLInputElement>(document.getElementById("profiles"));
+    let profiles=parseInt(parseElement.value);
+    let objPlayGround=new PlayGround(profiles);
+    objPlayGround.getNumberofGroups(profiles);
 }
