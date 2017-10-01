@@ -1,23 +1,16 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "noImplicitAny": true,
-        "removeComments": true,
-        "preserveConstEnums": true,
-        "sourceMap": true
+      "target": "es3",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "sourceMap": false,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "removeComments": false,
+      "noImplicitAny": false,
+      "outFile": "./all.js"
     },
-    "include": [
-        "./**/*.ts"
-    ],
-    // "files": [
-    //     "./Shapes/*.ts",
-    //     "sample.ts",
-    //     "./Shapes/IShape.ts",
-    //     "./Shapes/Circle.ts",
-    //     "./Shapes/Client.ts"
-    // ],
     "exclude": [
-        "node_modules",
-        "**/*.spec.ts"
+      "node_modules"
     ]
-}
+  }
