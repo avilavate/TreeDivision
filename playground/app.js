@@ -126,6 +126,7 @@ var app = (function () {
               var _this = this;
               this.noOfProfiles = noOfProfiles;
               this.getNumberofGroups = function () {
+                  d3.select("svg").remove();
                   if (_this.noOfProfiles == 0 || _this.noOfProfiles == 1)
                       return _this.noOfProfiles;
                   else {

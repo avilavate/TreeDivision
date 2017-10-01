@@ -7,6 +7,7 @@ export class PlayGround {
         divide(this.noOfProfiles)
     }
     getNumberofGroups = () => {
+        d3.select("svg").remove();
         if (this.noOfProfiles == 0 || this.noOfProfiles == 1) return this.noOfProfiles;
         else {
             let groupPartitions = getNextPartitions(this.noOfProfiles);
