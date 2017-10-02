@@ -8,7 +8,7 @@ export interface IPosition {
     level: number
 };
 
-export interface IZoomView { partition: number, zoomLevel: number }
+export interface IZoomView { partition: Array<number>, zoomLevel: number }
 
-export interface IZoomViewPartitions {partitions:Array<number>};
+export interface IZoomViewPartitions { partitions: Array<number> };
 

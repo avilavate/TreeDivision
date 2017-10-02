@@ -5,10 +5,10 @@ export let binary_seq = (value: number): Array<any> => {
     let count: number = 0;
     let outputs: Array<any> = [];
     while (value > 1) {
-        let output: IZoomView = { partition: 0, zoomLevel: 0 };
+        let output: IZoomView = { partition:[ 0], zoomLevel: 0 };
         value = value / 2;
         count++;
-        output.partition = value;
+        output.partition = [value];
         output.zoomLevel = count;
         outputs.push(output);
     }

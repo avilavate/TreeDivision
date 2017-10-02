@@ -1,16 +1,30 @@
 import { divide, getNextPartitions } from '../infra/math';
 import * as d3 from 'd3';
+import { IZoomView, IZoomViewPartitions } from '../infra/types';
 
 export class PlayGround {
-    constructor(private noOfProfiles: number) {
-
-        divide(this.noOfProfiles)
+    public static intermediateZoomedProfiles: IZoomView = { partition: [0], zoomLevel: 0 };
+    constructor(public noOfProfiles: number) {
+    }
+    getParts=(part:number):IZoomViewPartitions=>{
+      return  getNextPartitions(part);
     }
     getNumberofGroups = () => {
         d3.select("svg").remove();
-        if (this.noOfProfiles == 0 || this.noOfProfiles == 1) return this.noOfProfiles;
+        if (this.noOfProfiles == 0 || this.noOfProfiles == 1) {
+            if (PlayGround.intermediateZoomedProfiles.zoomLevel === 0) {
+                PlayGround.intermediateZoomedProfiles.zoomLevel = PlayGround.intermediateZoomedProfiles.zoomLevel + 1;
+                PlayGround.intermediateZoomedProfiles.partition = [this.noOfProfiles];
+            }
+            return PlayGround.intermediateZoomedProfiles.partition;
+        }
         else {
             let groupPartitions = getNextPartitions(this.noOfProfiles);
+            PlayGround.intermediateZoomedProfiles = {
+                partition: groupPartitions.partitions,
+                zoomLevel: PlayGround.intermediateZoomedProfiles.zoomLevel + 1
+            }
+
             try {
                 groupPartitions.partitions.forEach(partition => {
                     this.render(partition);
@@ -21,9 +35,9 @@ export class PlayGround {
         }
     }
 
-    private render = (groupPartition: number = 0) => {
+    public render = (groupPartition: number = 0) => {
         console.log(groupPartition);
-        var circle = d3.select("body").append("svg");
+        let circle = d3.select("div").append("svg");
         circle.append("circle")
             .attr("cx", 65)
             .attr("cy", 65)

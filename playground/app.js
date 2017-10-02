@@ -60,10 +60,10 @@ var app = (function () {
           var count = 0;
           var outputs = [];
           while (value > 1) {
-              var output = { partition: 0, zoomLevel: 0 };
+              var output = { partition: [0], zoomLevel: 0 };
               value = value / 2;
               count++;
-              output.partition = value;
+              output.partition = [value];
               output.zoomLevel = count;
               outputs.push(output);
           }
@@ -125,12 +125,24 @@ var app = (function () {
           function PlayGround(noOfProfiles) {
               var _this = this;
               this.noOfProfiles = noOfProfiles;
+              this.getParts = function (part) {
+                  return math_1.getNextPartitions(part);
+              };
               this.getNumberofGroups = function () {
                   d3.select("svg").remove();
-                  if (_this.noOfProfiles == 0 || _this.noOfProfiles == 1)
-                      return _this.noOfProfiles;
+                  if (_this.noOfProfiles == 0 || _this.noOfProfiles == 1) {
+                      if (PlayGround.intermediateZoomedProfiles.zoomLevel === 0) {
+                          PlayGround.intermediateZoomedProfiles.zoomLevel = PlayGround.intermediateZoomedProfiles.zoomLevel + 1;
+                          PlayGround.intermediateZoomedProfiles.partition = [_this.noOfProfiles];
+                      }
+                      return PlayGround.intermediateZoomedProfiles.partition;
+                  }
                   else {
                       var groupPartitions = math_1.getNextPartitions(_this.noOfProfiles);
+                      PlayGround.intermediateZoomedProfiles = {
+                          partition: groupPartitions.partitions,
+                          zoomLevel: PlayGround.intermediateZoomedProfiles.zoomLevel + 1
+                      };
                       try {
                           groupPartitions.partitions.forEach(function (partition) {
                               _this.render(partition);
@@ -144,7 +156,7 @@ var app = (function () {
               this.render = function (groupPartition) {
                   if (groupPartition === void 0) { groupPartition = 0; }
                   console.log(groupPartition);
-                  var circle = d3.select("body").append("svg");
+                  var circle = d3.select("div").append("svg");
                   circle.append("circle")
                       .attr("cx", 65)
                       .attr("cy", 65)
@@ -156,20 +168,62 @@ var app = (function () {
                       .attr('y', 65)
                       .text(groupPartition.toString());
               };
-              math_1.divide(this.noOfProfiles);
           }
+          PlayGround.intermediateZoomedProfiles = { partition: [0], zoomLevel: 0 };
           return PlayGround;
       }());
       exports.PlayGround = PlayGround;
   });
-  define("playground/client", ["require", "exports", "playground/play"], function (require, exports, play_1) {
+  define("playground/client", ["require", "exports", "playground/play", "d3"], function (require, exports, play_1, d3) {
       "use strict";
       exports.__esModule = true;
       function DrawProfile() {
           var parseElement = (document.getElementById("profiles"));
-          var profiles = parseInt(parseElement.value);
+          var profiles = !!parseElement ? parseInt(parseElement.value) : 0;
+          var subsequentPartitions = [0];
           var objPlayGround = new play_1.PlayGround(profiles);
-          objPlayGround.getNumberofGroups(profiles);
+          d3.select("svg").remove();
+          var myNode = document.getElementById("content");
+          myNode.innerHTML = '';
+          if (play_1.PlayGround.intermediateZoomedProfiles.zoomLevel === 0) {
+              d3.select("svg").remove();
+              var parts = objPlayGround.getParts(profiles);
+              parts.partitions.forEach(function (p) {
+                  if (p !== 0)
+                      objPlayGround.render(p);
+              });
+              play_1.PlayGround.intermediateZoomedProfiles.partition = parts.partitions;
+              play_1.PlayGround.intermediateZoomedProfiles.zoomLevel++;
+              //subsequentPartitions = objPlayGround.getNumberofGroups();
+          }
+          else {
+              d3.select("svg").remove();
+              d3.select(".graph").selectAll("*").remove();
+              var myNode = document.getElementById("content");
+              myNode.innerHTML = '';
+              console.log(play_1.PlayGround.intermediateZoomedProfiles);
+              var zoomPartViews_1 = [];
+              play_1.PlayGround.intermediateZoomedProfiles.partition.forEach(function (p) {
+                  if (p !== 0)
+                      zoomPartViews_1.push(objPlayGround.getParts(p));
+              });
+              play_1.PlayGround.intermediateZoomedProfiles.zoomLevel++;
+              play_1.PlayGround.intermediateZoomedProfiles.partition = new Array();
+              d3.select("svg").remove();
+              zoomPartViews_1.forEach(function (z) {
+                  z.partitions.forEach(function (a) {
+                      if (a !== 0)
+                          play_1.PlayGround.intermediateZoomedProfiles.partition.push(a);
+                  });
+              });
+              d3.select("svg").remove();
+              var myNode = document.getElementById("content");
+              myNode.innerHTML = '';
+              play_1.PlayGround.intermediateZoomedProfiles.partition.forEach(function (p) {
+                  if (p !== 0)
+                      objPlayGround.render(p);
+              });
+          }
       }
       exports.DrawProfile = DrawProfile;
   });

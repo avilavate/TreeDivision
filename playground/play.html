@@ -5,23 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <title>Play-Ground</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="./app.js"></script>
 </head>
+
 <body>
-    Enter # of profiles: <input type="number" id="profiles"/>
+    Enter # of profiles: <input type="number" id="profiles" />
     <fieldset>
         <legend>Playground</legend>
-        <div>
-            <p>
-
-            </p>
+        <div id="content">
+            <svg></svg>
         </div>
+
     </fieldset>
-    <button onclick="app.DrawProfile()">+</button> ------------------- <button>-</button>
-    <hr>
     <p></p>
+    <p>
+        <fieldset>
+            <legend>Zoom Simulation</legend>
+            <div style="top:5in">
+                <button onclick="app.DrawProfile()">+</button>
+                <button>-</button> </div>
+        </fieldset>
+
+    </p>
 
 </body>
 
