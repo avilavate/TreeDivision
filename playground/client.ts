@@ -2,10 +2,15 @@ import { PlayGround } from './play'
 import * as d3 from 'd3';
 import { IZoomViewPartitions } from '../infra/types';
 
+export function Reset() {
+    window.location.href = window.location.href;
+}
 
 export function DrawProfile() {
 
     let parseElement = <HTMLInputElement>(document.getElementById("profiles"));
+    let parseCheck = <HTMLInputElement>(document.getElementById("relative"));
+    console.log(parseCheck.value);
     let profiles = !!parseElement ? parseInt(parseElement.value) : 0;
     let subsequentPartitions = [0];
 

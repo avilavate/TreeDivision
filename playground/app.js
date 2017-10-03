@@ -177,8 +177,14 @@ var app = (function () {
   define("playground/client", ["require", "exports", "playground/play", "d3"], function (require, exports, play_1, d3) {
       "use strict";
       exports.__esModule = true;
+      function Reset() {
+          window.location.href = window.location.href;
+      }
+      exports.Reset = Reset;
       function DrawProfile() {
           var parseElement = (document.getElementById("profiles"));
+          var parseCheck = (document.getElementById("relative"));
+          console.log(parseCheck.value);
           var profiles = !!parseElement ? parseInt(parseElement.value) : 0;
           var subsequentPartitions = [0];
           var objPlayGround = new play_1.PlayGround(profiles);
